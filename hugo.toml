@@ -1,0 +1,4 @@
+baseURL = 'https://michalbaran.pl/'
+languageCode = 'en-us'
+title = 'MichalBaran.pl'
+theme= 'hugo-theme-terminalcv'
