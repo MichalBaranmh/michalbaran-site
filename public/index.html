@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+    <meta name="description" content="My terminal cv">
     <meta property="og:title" content="MichalBaran.pl" />
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="http://localhost:1313/" />
@@ -53,17 +53,17 @@ jQuery(document).ready(function($) {
 
     var lessCommands = [
         "whois",
+        "social",
+        "work",
+        "education",
+        "skills",
+        "softskills",
+        "languages",
+        "projects",
+        "publications",
+        "certifications",
+        "newcommand",
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        "source",
         "all"
     ];
 
@@ -72,26 +72,54 @@ jQuery(document).ready(function($) {
         less: {
             description: "Use less as output method for commands",
             args: [
-                ...lessCommands
+                ...lessCommands,
+                ...postFilenames
             ]
         },
         whois: "list basic details",
         
+        social: "list social networks",
+        
+        
+        work: "list work experience",
+        
+        
+        education: "list education",
+        
+        
+        skills: "list core skills",
+        
+        
+        softskills: "list soft skills",
+        
+        
+        languages: "list spoken languages",
+        
+        
+        projects: "list projects",
+        
+        
+        publications: "list publications",
+        
+         
+            certifications: "list certifications",
         
         
         
+            "newcommand": "This Section can have a different command name",
         
         
         
+            version: "Current version",
         
         
         
-        
-        
-            source: "shows details about template powering this website",
-        
-        
-        
+            posts: "List all posts",
+            ls: "List all posts",
+            cat: {
+                description: "Open a post",
+                args: postFilenames
+             },
         
         all: "Show all details about me",
     };
@@ -127,16 +155,48 @@ jQuery(document).ready(function($) {
                 '\n <command>'.padEnd(17) + '- execute the command\n' +
                 ' less <command>'.padEnd(16) + '- use less to display the output\n\n' +
                 
+                  ' less <post>'.padEnd(16) + '- use less to display a post\n' +
+                  ' cat <post>'.padEnd(16) + '- use cat to print a post\n' +
+                
                 '\n[[b;white;]Available commands:]\n' + 
                commandsHelp();
 
     var whois = [
+         
+            '[[b;white;]Name:]          [[b;white;]John Doe\n]' + 
+            '[[b;white;]Profession:]\t[[b;white;]Unknown\n]' +
+            '[[b;white;]Location:]\t\t[[b;white;]Somewhere\n]' +
+            
+            
+            '[[b;white;]Email:]\t\t\tfoo@someemail.com\n' +
+            
+            
+            '[[b;white;]Homepage:]      https:\/\/myHomePage.com\n' +
+            
+            
+            '[[b;white;]Here you can write something catchy about yourself\n]' +
+            
+            '\r',
         
     ]; 
 
     function social() { 
         var hideName = false;
         let sMap = { 
+             
+                
+                "github": "https:\/\/github.com",
+                
+                "facebook": "https:\/\/facebook.com",
+                
+                "myspace": "https:\/\/myspace.com",
+                
+                "hi5": "https:\/\/www.hi5.com",
+                
+                "instagram": "https:\/\/instagram.com",
+                
+                "Another social": "https:\/\/anothersocial.com",
+                
             
         };
 
@@ -160,13 +220,33 @@ jQuery(document).ready(function($) {
       
         
         $.ajax({
-            url: "posts/",
+            url: "/posts/index.xml",
             type: 'GET',
-            success: function(data) {
-                term.echo(data, {raw: true}); 
+            dataType: 'xml',
+            success: function(xml) {
+                
+                let output = '\n';
+                
+                $(xml).find('item').each(function() {
+                    let title = $(this).find('title').text();
+                    let filename = $(this).find('filename').text();
+                    let author = $(this).find('author').text() || "unknown";
+                    let pubDate = $(this).find('pubDate').text();
+                    
+                    let dateObj = new Date(pubDate);
+                    let date = dateObj.toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: '2-digit' 
+                    });
+                    let line = `-r--r--r--  ${author.padEnd(12)}  ${date.padEnd(13)}  ${filename}`;
+                    output += line + '\n';
+                });
+                
+                term.echo(output);
             },
             error: function() {
-                term.echo("Error: Could not load posts data");
+            term.echo("Error: Could not load posts data");
             }
         });
       
@@ -174,37 +254,227 @@ jQuery(document).ready(function($) {
 
     var certifications = [
     
+        
+            '---\n' +
+            '[[b;grey;]Example Cert]\n' +
+            'Date of Completion\n' +
+            
+            'Example Certifying Company\n' +
+            
+            
+            
+            'Badge: \thttps:\/\/www.link.to.badge\n' +
+            
+            '\r',
+        
+    
     ];
     
     var work = [
+    
+        
+            '---\n' +
+            '[[b;red;]Job With Red Title]\n' +
+            '-\n' +
+            'somewhere\n' +
+            'August 2010 - Present\n' +
+            '\n' +
+            'Some description about this red title job' +
+            '\r',
+        
+            '---\n' +
+            '[[b;purple;]Job with purple title]\n' +
+            '-\n' +
+            'somewhere elese\n' +
+            'July 2000  - July 2010\n' +
+            '\n' +
+            'Some description about this purple job' +
+            '\r',
+        
+            '---\n' +
+            '[[b;grey;]Job with default color title]\n' +
+            '-\n' +
+            'anywhere\n' +
+            'July 2008 - 2010\n' +
+            '\n' +
+            'Description about this default color job' +
+            '\r',
+        
     
     ];
 
     var education = [
     
+        
+            '---\n' +
+            '[[b;red;]Red Color training]\n' +
+            'June 2019 - July 2019\n' +
+            
+                "Descrption about red color trianing\n" +
+            
+            "\r",
+        
+            '---\n' +
+            '[[b;grey;]Default color training]\n' +
+            'Sept 2004 - Jun 2008\n' +
+            
+            "\r",
+        
+    
     ];
 
     var projects = [
+    
+        
+            '---\n' +
+            '[[b;red;]Project Red]\n' +
+            'since 2019\n' +
+            'https:\/\/example.com\n' +
+            
+            'Describing red stuff\n' +
+            
+            "\r",
+      
+            '---\n' +
+            '[[b;blue;]Project Blue]\n' +
+            'since 2016\n' +
+            'https:\/\/example.com\/blue\n' +
+            
+            "\r",
+      
+            '---\n' +
+            '[[b;grey;]Project Default]\n' +
+            'Since 2017\n' +
+            'https:\/\/example.com\/default\n' +
+            
+            "\r",
+      
     
     ];
 
     var publications = [
     
+        
+            '---\n' +
+            '[[b;green;]Machine Learning for Terminal Enthusiasts]\n' +
+            
+            'John Doe, Jane Smith\n' +
+            
+            
+            'Journal of Terminal Computing, Vol. 42\n' +
+            
+            '2025\n' +
+            
+            'https:\/\/example.com\/paper1\n' +
+            
+            
+            'A comprehensive study on ML applications in terminal interfaces\n' +
+            
+            "\r",
+      
+            '---\n' +
+            '[[b;blue;]The Art of ASCII: Modern Approaches]\n' +
+            
+            'John Doe\n' +
+            
+            
+            'International Conference on Text-Based Interfaces (ICTBI)\n' +
+            
+            '2024\n' +
+            
+            'https:\/\/example.com\/paper2\n' +
+            
+            
+            "\r",
+      
+            '---\n' +
+            '[[b;grey;]Understanding Command Line User Experience]\n' +
+            
+            'John Doe, Bob Wilson, Alice Brown\n' +
+            
+            
+            'ACM Transactions on Human-Computer Interaction\n' +
+            
+            '2023\n' +
+            
+            
+            'Research on improving CLI usability and accessibility\n' +
+            
+            "\r",
+      
+    
     ];
 
     var skills = [
+    
+        
+            '[[b;grey;]Skill 1:]\n' +
+            progressBar( 90 ) +
+            '90' + '%\n' +
+            
+            '\r',
+        
+            '[[b;grey;]Skill 2:]\n' +
+            progressBar( 30 ) +
+            '30' + '%\n' +
+            
+            '\r',
+        
+            '[[b;blue;]Skill 3:]\n' +
+            progressBar( 50 ) +
+            '50' + '%\n' +
+            
+            'Skill names can have colors too\n' +
+            
+            '\r',
+        
     
     ];
 
     var softSkills = [
     
+        
+            '[[b;red;]SoftSkill 1:]\n' +
+            progressBar( 80 ) +
+            '80' + '%\n' + 
+            
+            '\r',
+        
+            '[[b;grey;]SoftSkill 2:]\n' +
+            progressBar( 90 ) +
+            '90' + '%\n' + 
+            
+            'Description\n' +
+            
+            '\r',
+        
+    
     ];
   
     var languages = [
     
+        
+            '[[b;Blue;]English:]\n' +
+            progressBar( 50 )+ 
+            '50' + '%\n' +
+            
+            '\r',
+        
+            '[[b;grey;]Gibberish:]\n' +
+            progressBar( 100 )+ 
+            '100' + '%\n' +
+            
+            'pasghettipigglywiggly\n' +
+            
+            '\r',
+        
+    
     ];
 
     var misc = [
+         
+        '[[b;teal;]This Section can have a different command name]\n' +
+        '[[;orange;]Here the title and the content can have different colors\nThe content can be multi\n\nline\n\nAnd spaces       will be respected as well\nThis section will have the default command: misc\nbut you can name it something else with the property\ncommandName: \u003cString\u003e\nGive it a shot and try and uncomment the line \ncommandName: newcommand\nnow instead of misc you can execute the newcommand for this section\nAuto completion will know it too! :D\n]\n',
          
     ];
 
@@ -224,15 +494,37 @@ jQuery(document).ready(function($) {
     var all = [ 
         whois,
         
+        social(),
         
         
+        work,
         
         
+        education,
         
         
+        skills,
         
         
+        softSkills,
         
+        
+        languages,
+        
+        
+        projects,
+        
+        
+        publications,
+        
+        
+        certifications,
+        
+        
+        misc,
+        
+        
+        source,
         
     ]
 
@@ -343,18 +635,60 @@ jQuery(document).ready(function($) {
                 echoArray(whois);
                 break;
             
+            case 'social':
+                
+                echoArray(social());
+                break;
             
             
+            case 'work':
+                
+                echoArray(work);
+                break;
             
             
+            case 'education':
+                
+                echoArray(education);
+                break;
             
             
+            case 'skills':
+                
+                useLess = true;
+                
+                echoArray(skills);
+                break;
+            
+            
+            case 'softskills':
+                
+                echoArray(softSkills);
+                break;
+            
+            
+            case 'languages':
+                
+                echoArray(languages);
+                break;
+            
+            
+            case 'projects':
+                
+                echoArray(projects);
+                break;
+            
+            
+            case 'publications':
+                
+                echoArray(publications);
+                break;
             
             case 'certifications':
                 
                 echoArray(certifications);
                 break;
-            case 'misc':
+            case 'newcommand':
                 
                 echoArray(misc);
                 break;
@@ -381,11 +715,28 @@ jQuery(document).ready(function($) {
                 setTimeout(function() {
                   term.pause();
                   term.clear();
-                  term.echo("");
+                  term.echo("[Session completed, the browserwindow can be safely closed]");
                 }, 2000);
                 break;
             
             
+            case 'version':
+                term.echo("2.0.0");
+                break;
+            
+            
+            case 'cat':
+                if (cmdParts.length < 2) {
+                    term.echo("Usage: cat <filename>");
+                } else {
+                    var  postdir = cmdParts[1];
+                    catPost(term, postdir);
+                }
+                break;
+            case 'posts':
+            case 'ls':
+                posts(term);
+                break;
             
             case '':
                 break;
@@ -397,10 +748,21 @@ jQuery(document).ready(function($) {
     }, {
 
          
-          greetings: "[[b;white;]]",
+          greetings: false,
+          onInit: function(term) {
+          term.pause();
+          term.typing('echo', 1, 'Copyright 2024, 2025\nTerminalCV. MIT License (MIT)\nhttps:\/\/github.com\/coolapso\/hugo-theme-terminalcv\n[CloudOSBoot1]: ready\n[CloudOSBoot2]: ready\n[Webserver]: ready \n[HUGO]: ready\n[TerminalCV]: ready\n\nBoot Complete, accepting user input.\n', function() {
+            term.clear();
+            
+              term.echo("[[b;white;]‎ \u0027||\\   \/||\u0060            \u0027||             \u0027||\u0060 \u0027||\u0027\u0027\u0027|,                                             \u0027||\u0060 \n‎  ||\\\\.\/\/||   \u0027\u0027         ||              ||   ||   ||                                              ||  \n‎  ||     ||   ||  .|\u0027\u0027,  ||\u0027\u0027|,  \u0027\u0027\u0027|.   ||   ||;;;;    \u0027\u0027\u0027|.  \u0027||\u0027\u0027|  \u0027\u0027\u0027|.  \u0060||\u0027\u0027|,     \u0027||\u0027\u0027|,  ||  \n‎  ||     ||   ||  ||     ||  || .|\u0027\u0027||   ||   ||   ||  .|\u0027\u0027||   ||    .|\u0027\u0027||   ||  ||      ||  ||  ||  \n‎ .||     ||. .||. \u0060|..\u0027 .||  || \u0060|..||. .||. .||...|\u0027  \u0060|..||. .||.   \u0060|..||. .||  ||. ..  ||..|\u0027 .||. \n‎                                                                                           ||          \n‎                                                                                          .||                                                                                                       \n2.0.0]");
+              term.echo("[[b;white;]Type \u0027help\u0027 for a list of available commands\n]");
+            
+          });
+          term.resume();
+          },
         
 
-        prompt: '',
+        prompt: '[[;red;][][[;pink;]user@terminalCV][[;red;]\\]][[;grey;]-][[;red;][][[;blue;]~\/terminalcv][[;red;]\\]][[;orange;]: ]',
 
         keydown: function(e, term) {
             if (animation) {
@@ -415,7 +777,26 @@ jQuery(document).ready(function($) {
         },
         autocompleteMenu: true,
         
-          completion: Object.keys(commands)
+          
+          completion: function(string) {
+              var command = this.get_command();
+              var parts = command.split(/\s+/);
+              var commandName = parts[0];
+              
+              
+              if (parts.length === 1 || command.indexOf(' ') === -1) {
+                  return Object.keys(commands).filter(function(cmd) {
+                      return cmd.startsWith(string);
+                  });
+              }
+              
+              
+              if (commands[commandName] && commands[commandName].args) {
+                  return commands[commandName].args.filter(function(arg) {
+                      return arg.startsWith(string);
+                  });
+              }
+          }
         
         
     });
