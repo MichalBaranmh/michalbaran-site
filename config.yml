@@ -75,13 +75,12 @@ params:
       leftColor: "white"
       rightColor: "white"
       descriptionColor: "white"
-      name: "John Doe"
-      profession: "Unknown"
-      location: "Somewhere"
-      email: "foo@someemail.com"
-      homelink: "https://myHomePage.com"
+      name: "Michal Baran"
+      profession: "IT Engineer"
+      location: "Poland"
+      homelink: "https://MichalBaran.pl"
       description: |
-        Here you can write something catchy about yourself
+        Root access isn't just a permission; it's a lifestyle.
 
   social:
     #settings:
@@ -89,52 +88,44 @@ params:
     #  hideName: true
     details:
       - name: "github"
-        url: "https://github.com"
-      - name: "facebook"
-        url: "https://facebook.com"
-      - name: "myspace"
-        url: "https://myspace.com"
-      - name: "hi5"
-        url: "https://www.hi5.com"
-      - name: "instagram"
-        url: "https://instagram.com"
-      - name: "Another social"
-        url: "https://anothersocial.com"
+        url: "https://github.com/MichalBaranmh"
+      - name: "linkedin"
+        url: "https://linkedin.com/in/baranmichal"
 
   work:
     # settings:
     #   useLess: true
     details:
-      - jobTitle: Job With Red Title
+      - jobTitle: Junior IT Engineer
         color: red
-        company: "-"
-        location: somewhere
-        date: August 2010 - Present
-        description: Some description about this red title job
+        company: "Innerio Thermal Technology"
+        location: Zabrze, Poland
+        date: July 2025 - Present
+        description: Administering and maintaining the company's IT infrastructure, ensuring optimal performance and security.
 
-      - jobTitle: Job with purple title
+      - jobTitle: IT Technician
         color: purple
-        company: "-"
-        location: somewhere elese
-        date: July 2000  - July 2010
-        description: Some description about this purple job
-
-      - jobTitle: Job with default color title
-        company: "-"
-        location: anywhere
-        date: July 2008 - 2010
-        description: Description about this default color job
+        company: "Innerio Thermal Technology"
+        location: Zabrze, Poland
+        date: November 2022  - June 2025
+        description: Providing technical support, troubleshooting hardware and software issues, and assisting in the setup of new IT equipment.
 
   education:
     details:
-      - courseName: Red Color training
-        color: red
-        date: June 2019 - July 2019
-        description: Descrption about red color trianing
+      - courseName: Master's Degree in Computer Science, specialization Python Programming
+        color: blue
+        date: October 2025 - Present
+        description: WSB Merito University in Chorzow, Poland
 
-      - courseName: Default color training
-        date: Sept 2004 - Jun 2008
-        #description: There is no need for description
+      - courseName: Bachelor of Engineering in Computer Science
+        color: cyan
+        date: March 2022 - June 2025
+        description: WSB Merito University in Chorzow, Poland
+
+      - courseName: Bachelor's Degree in Sociology of Business and Media
+        color: green
+        date: October 2018 - June 2021
+        description: Silesian University of Technology in Zabrze, Poland
 
   skills:
     settings:
